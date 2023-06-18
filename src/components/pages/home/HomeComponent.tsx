@@ -8,8 +8,13 @@ import HomeFooter from '@/components/pages/home/HomeFooter';
 import TicketTypes from '@/components/pages/home/TicketTypes';
 
 import banner from '@/assets/banner2.jpeg';
+import { EventType } from '@/pages/home';
 
-function HomeComponent() {
+export interface PropType {
+  events: EventType[];
+}
+
+function HomeComponent({ events }: { events: EventType[] }) {
   return (
     <div className='flex h-full w-full flex-col items-center overflow-scroll'>
       <Header className='fixed top-0 h-16 w-full bg-blue-300 bg-opacity-[0.35]' />
@@ -50,12 +55,12 @@ function HomeComponent() {
       <div className='flex w-full max-w-[1200px] flex-col items-center justify-start gap-6'>
         <p className='mt-8 text-center text-2xl'>Top Events</p>
         <div className='flex flex-1 flex-wrap items-center justify-between gap-4'>
-          {srcs.map((src, index) => (
+          {events.slice(0, 20).map((event, index) => (
             <Card
               key={index}
               className='shadow'
-              title='The Weeknd Concert'
-              src={src}
+              title={event.title}
+              src={getRandomImage()}
               isTop={true}
             />
           ))}
@@ -64,12 +69,13 @@ function HomeComponent() {
         {/* This part included events in korea */}
         <p className='mt-8 text-center text-xl'>Top Events in South Korea</p>
         <div className='flex flex-1 flex-wrap items-center justify-between gap-4'>
-          {srcs.map((src, index) => (
+          {events.slice(20, 60).map((src, index) => (
             <Card
               key={index}
               className='shadow'
-              title='The Weeknd Concert'
-              src={src}
+              title={src.title}
+              // description={src.description}
+              src={getRandomImage()}
               isTop={false}
             />
           ))}
@@ -78,12 +84,12 @@ function HomeComponent() {
         {/* This part includes top international events */}
         <p className='mt-8 text-center text-xl'>Top International Events</p>
         <div className='flex flex-1 flex-wrap items-center justify-between gap-4'>
-          {srcs.map((src, index) => (
+          {events.slice(60, 100).map((src, index) => (
             <Card
               key={index}
               className='shadow'
-              title='The Weeknd Concert'
-              src={src}
+              title={src.title}
+              src={getRandomImage()}
               isTop={false}
             />
           ))}
@@ -111,6 +117,10 @@ function HomeComponent() {
 }
 
 export default HomeComponent;
+
+function getRandomImage() {
+  return srcs[Math.floor(Math.random() * srcs.length)];
+}
 
 const srcs = [
   'https://plus.unsplash.com/premium_photo-1674898512376-0b73f2bd2e0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2970&q=80',
