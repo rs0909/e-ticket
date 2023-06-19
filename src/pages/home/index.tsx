@@ -26,7 +26,7 @@ export default HomePage;
 
 // server side rendering. For now, we don't need it.So, just example.
 export async function getServerSideProps() {
-  const res = await fetch('http://localhost:8000/api/events/events');
+  const res = await fetch('http://127.0.0.1:8000/api/events/events');
   const data = await res.json();
 
   // const users = await fetch('http://localhost:8000/api/users');
