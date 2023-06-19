@@ -129,7 +129,7 @@ function HomeComponent({ events }: { events: EventType[] }) {
 
 export default HomeComponent;
 
-function getRandomImage() {
+export function getRandomImage() {
   return srcs[Math.floor(Math.random() * srcs.length)];
 }
 
