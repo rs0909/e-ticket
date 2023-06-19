@@ -8,6 +8,10 @@ export default {
       fontFamily: {
         primary: ['Inter', ...defaultTheme.fontFamily.sans],
       },
+        spacing: {
+          '128': '32rem',
+          '256': '64rem'
+        },
       colors: {
         primary: {
           // Customize it on globals.css :root

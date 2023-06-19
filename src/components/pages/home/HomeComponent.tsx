@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
-
+import { useRouter } from 'next/router';
 import Card from '@/components/Card';
 import Header from '@/components/layout/Header';
 import SearchBar from '@/components/layout/SearchBar';
@@ -15,6 +15,8 @@ export interface PropType {
 }
 
 function HomeComponent({ events }: { events: EventType[] }) {
+
+  const router = useRouter()
   return (
     <div className='flex h-full w-full flex-col items-center overflow-scroll'>
       <Header className='fixed top-0 h-16 w-full bg-blue-300 bg-opacity-[0.35]' />
@@ -62,6 +64,9 @@ function HomeComponent({ events }: { events: EventType[] }) {
               title={event.title}
               src={getRandomImage()}
               isTop={true}
+              onClick={()=>{
+                router.push(`/event/${event.id}`)
+            }}
             />
           ))}
         </div>
@@ -77,6 +82,9 @@ function HomeComponent({ events }: { events: EventType[] }) {
               // description={src.description}
               src={getRandomImage()}
               isTop={false}
+              onClick={()=>{
+                  router.push(`/event/${src.id}`)
+              }}
             />
           ))}
         </div>
@@ -91,6 +99,9 @@ function HomeComponent({ events }: { events: EventType[] }) {
               title={src.title}
               src={getRandomImage()}
               isTop={false}
+              onClick={()=>{
+                router.push(`/event/${src.id}`)
+            }}
             />
           ))}
         </div>
