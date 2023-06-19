@@ -9,9 +9,15 @@ export interface CardProps {
   title?: string;
   description?: string;
   src: string;
+  onClick?: () => void;
 }
 
-function Card({ className, isTop, title, description, src }: CardProps) {
+function Card({ className, isTop, title, description, src, onClick}: CardProps) {
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    }
+  };
   return (
     <div
       className={clsxm(
@@ -20,6 +26,7 @@ function Card({ className, isTop, title, description, src }: CardProps) {
         'transition-all duration-300 hover:scale-105',
         className
       )}
+      onClick={handleClick}
     >
       <div className='h-[170px] w-full'>
         <Image
