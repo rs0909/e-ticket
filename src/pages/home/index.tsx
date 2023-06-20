@@ -17,7 +17,7 @@ export interface EventType {
 function HomePage({ events }: { events: EventType[] }) {
   return (
     <div className='w-screen'>
-      <HomeComponent events={events} />
+      <HomeComponent eventss={events} />
     </div>
   );
 }
