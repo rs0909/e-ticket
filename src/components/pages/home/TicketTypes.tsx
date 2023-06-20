@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 
 import clsxm from '@/lib/clsxm';
@@ -9,6 +10,8 @@ export interface TicketTypesProps {
 }
 
 function TicketTypes({ types, className }: TicketTypesProps) {
+  const router = useRouter();
+
   return (
     <div
       className={clsxm(
@@ -22,6 +25,11 @@ function TicketTypes({ types, className }: TicketTypesProps) {
           <div
             key={name}
             className='flex flex-col items-center justify-center space-y-2 p-4'
+            onClick={() => {
+              //go to current_url + #path
+              // before that, remove #path if it exists
+              router.push('/home' + path);
+            }}
           >
             <h3
               className={clsxm(

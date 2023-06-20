@@ -1,6 +1,7 @@
 import Image from 'next/image';
-import React from 'react';
 import { useRouter } from 'next/router';
+import React from 'react';
+
 import Card from '@/components/Card';
 import Header from '@/components/layout/Header';
 import SearchBar from '@/components/layout/SearchBar';
@@ -11,14 +12,27 @@ import banner from '@/assets/banner2.jpeg';
 import { EventType } from '@/pages/home';
 
 export interface PropType {
-  events: EventType[];
+  eventss: EventType[];
 }
 
-function HomeComponent({ events }: { events: EventType[] }) {
+function HomeComponent({ eventss }: { eventss: EventType[] }) {
+  const [search, setSearch] = React.useState('');
+  const [events, setEvents] = React.useState<EventType[]>(eventss);
 
-  const router = useRouter()
+  React.useEffect(() => {
+    setEvents(eventss);
+  }, [eventss]);
+
+  React.useEffect(() => {
+    const filteredEvents = eventss?.filter((event) => {
+      return event.title.toLowerCase().includes(search.toLowerCase());
+    });
+    setEvents(filteredEvents);
+  }, [eventss, search]);
+
+  const router = useRouter();
   return (
-    <div className='flex h-full w-full flex-col items-center overflow-scroll'>
+    <div className='flex h-full w-full flex-col items-center overflow-scroll scroll-smooth'>
       <Header className='fixed top-0 h-16 w-full bg-blue-300 bg-opacity-[0.35]' />
       {/* the Following parts includes main page banner and search bar  */}
       <div
@@ -38,74 +52,135 @@ function HomeComponent({ events }: { events: EventType[] }) {
           <TicketTypes
             className='z-10 mt-24'
             types={[
-              { 'Concert Tickets': '/concert' },
+              { 'Concert Tickets': '#concerts' },
               {
-                'Sport Tickets': '/sport',
+                'Sport Tickets': '#sports',
               },
               {
-                'Theater Tickets': '/theater',
+                'Theater Tickets': '#theater',
               },
               {
-                'Festival Tickets': '/festival',
+                'Festival Tickets': '#festivals',
               },
             ]}
           />
-          <SearchBar className='mt-10' />
+          <SearchBar className='mt-10' search={search} setSearch={setSearch} />
         </div>
       </div>
       {/* This part included top events */}
-      <div className='flex w-full max-w-[1200px] flex-col items-center justify-start gap-6'>
-        <p className='mt-8 text-center text-2xl'>Top Events</p>
-        <div className='flex flex-1 flex-wrap items-center justify-between gap-4'>
-          {events.slice(0, 20).map((event, index) => (
-            <Card
-              key={index}
-              className='shadow'
-              title={event.title}
-              src={getRandomImage()}
-              isTop={true}
-              onClick={()=>{
-                router.push(`/event/${event.id}`)
-            }}
-            />
-          ))}
+      {search !== '' ? (
+        <div className='flex w-full max-w-[1200px] flex-col items-center justify-start gap-6'>
+          <p className='mt-8 text-center text-2xl'>
+            Showing {events.length} results for `{search}`
+          </p>
+          <div className='flex flex-1 flex-wrap items-center justify-between gap-4'>
+            {events?.slice(0, 20).map((event, index) => (
+              <Card
+                key={index}
+                className='shadow'
+                title={event.title}
+                src={getRandomImage()}
+                isTop={true}
+                onClick={() => {
+                  router.push(`/event/${event.id}`);
+                }}
+              />
+            ))}
+          </div>
         </div>
+      ) : (
+        <div className='flex w-full max-w-[1200px] flex-col items-center justify-start gap-6'>
+          <p className='mt-8 text-center text-2xl'>Top Events</p>
+          <div className='flex flex-1 flex-wrap items-center justify-between gap-4'>
+            {eventss?.slice(0, 20).map((event, index) => (
+              <Card
+                key={index}
+                className='shadow'
+                title={event.title}
+                src={getRandomImage()}
+                isTop={true}
+                onClick={() => {
+                  router.push(`/event/${event.id}`);
+                }}
+              />
+            ))}
+          </div>
 
-        {/* This part included events in korea */}
-        <p className='mt-8 text-center text-xl'>Top Events in South Korea</p>
-        <div className='flex flex-1 flex-wrap items-center justify-between gap-4'>
-          {events.slice(20, 60).map((src, index) => (
-            <Card
-              key={index}
-              className='shadow'
-              title={src.title}
-              // description={src.description}
-              src={getRandomImage()}
-              isTop={false}
-              onClick={()=>{
-                  router.push(`/event/${src.id}`)
-              }}
-            />
-          ))}
-        </div>
+          {/* This part included events in korea */}
+          <p className='mt-8 text-center text-xl' id='concerts'>
+            Concerts in South Korea
+          </p>
+          <div className='flex flex-1 flex-wrap items-center justify-between gap-4'>
+            {eventss?.slice(20, 40).map((src, index) => (
+              <Card
+                key={index}
+                className='shadow'
+                title={src.title}
+                // description={src.description}
+                src={getRandomImage()}
+                isTop={false}
+                onClick={() => {
+                  router.push(`/event/${src.id}`);
+                }}
+              />
+            ))}
+          </div>
 
-        {/* This part includes top international events */}
-        <p className='mt-8 text-center text-xl'>Top International Events</p>
-        <div className='flex flex-1 flex-wrap items-center justify-between gap-4'>
-          {events.slice(60, 100).map((src, index) => (
-            <Card
-              key={index}
-              className='shadow'
-              title={src.title}
-              src={getRandomImage()}
-              isTop={false}
-              onClick={()=>{
-                router.push(`/event/${src.id}`)
-            }}
-            />
-          ))}
+          {/* This part includes top international events */}
+          <p className='mt-8 text-center text-xl' id='festivals'>
+            Festivals in South Korea
+          </p>
+          <div className='flex flex-1 flex-wrap items-center justify-between gap-4'>
+            {eventss?.slice(40, 60).map((src, index) => (
+              <Card
+                key={index}
+                className='shadow'
+                title={src.title}
+                src={getRandomImage()}
+                isTop={false}
+                onClick={() => {
+                  router.push(`/event/${src.id}`);
+                }}
+              />
+            ))}
+          </div>
+
+          <p className='mt-8 text-center text-xl' id='sports'>
+            Sports Events in South Korea
+          </p>
+          <div className='flex flex-1 flex-wrap items-center justify-between gap-4'>
+            {eventss?.slice(60, 80).map((src, index) => (
+              <Card
+                key={index}
+                className='shadow'
+                title={src.title}
+                src={getRandomImage()}
+                isTop={false}
+                onClick={() => {
+                  router.push(`/event/${src.id}`);
+                }}
+              />
+            ))}
+          </div>
+          <p className='mt-8 text-center text-xl' id='theater'>
+            Theater Events in South Korea
+          </p>
+          <div className='flex flex-1 flex-wrap items-center justify-between gap-4'>
+            {eventss?.slice(60, 100).map((src, index) => (
+              <Card
+                key={index}
+                className='shadow'
+                title={src.title}
+                src={getRandomImage()}
+                isTop={false}
+                onClick={() => {
+                  router.push(`/event/${src.id}`);
+                }}
+              />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
       {/* This is a footer */}
       <HomeFooter className='mt-10 h-[200px] w-full bg-[#A3D165] p-5' />
 

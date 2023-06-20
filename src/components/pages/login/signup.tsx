@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import Header from '@/components/layout/Header';
+
 function Signup() {
   const [username, setUsername] = useState('');
   const [password1, setPassword1] = useState('');
@@ -20,19 +22,17 @@ function Signup() {
           },
           body: JSON.stringify({
             username: username,
-            password: password1
+            password: password1,
             // email: email,
             // phone_number: phone_number,
           }),
         });
 
-        if (response.ok) {
-          // Redirect to the login page
-          window.location.href = '/login';
-        } else {
-          const data = await response.json();
-          setError(data.detail);
-        }
+        const data = await response.json();
+
+        console.log(data);
+        // setCookie('token', response.json(), { path: '/' });
+        window.location.href = '/login';
       } catch (error) {
         console.log('An error occurred:', error);
       }
@@ -45,11 +45,15 @@ function Signup() {
     setUsername(event.target.value);
   };
 
-  const handlePassword1Change = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePassword1Change = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setPassword1(event.target.value);
   };
 
-  const handlePassword2Change = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePassword2Change = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setPassword2(event.target.value);
   };
 
@@ -62,101 +66,105 @@ function Signup() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div w-screen>
-        <p className="text-xl text-center mb-4">Please Join Us!</p>
-        <div className="container mx-auto my-3">
-          <div className="bg-white shadow-md rounded-lg px-6 py-4">
+    <div className='flex h-screen items-center justify-center'>
+      <Header className='absolute w-screen bg-blue-400 bg-opacity-50' />
+      <div w-screen className='w-[600px]'>
+        <p className='mb-4 text-center text-xl'>Please Join Us!</p>
+        <div className='container mx-auto my-3'>
+          <div className='rounded-lg bg-white px-6 py-4 shadow-md'>
             <form onSubmit={handleSubmit}>
-              <div className="mb-3">
+              <div className='mb-3'>
                 <label
-                  htmlFor="username"
-                  className="block mb-1 text-lg font-medium text-gray-700"
+                  htmlFor='username'
+                  className='mb-1 block text-lg font-medium text-gray-700'
                 >
                   ID
                 </label>
                 <input
-                  type="text"
-                  className="form-control px-16 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                  name="username"
-                  id="username"
+                  type='text'
+                  className='form-control rounded-lg border border-gray-300 px-6 py-2 focus:border-blue-500 focus:outline-none'
+                  name='username'
+                  id='username'
                   value={username}
                   onChange={handleUsernameChange}
                 />
               </div>
-              <div className="mb-3">
+              <div className='mb-3'>
                 <label
-                  htmlFor="password1"
-                  className="block mb-1 text-lg font-medium text-gray-700"
+                  htmlFor='password1'
+                  className='mb-1 block text-lg font-medium text-gray-700'
                 >
                   Password
                 </label>
                 <input
-                  type="password"
-                  className="form-control px-16 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                  name="password1"
-                  id="password1"
+                  type='password'
+                  className='form-control rounded-lg border border-gray-300 px-6 py-2 focus:border-blue-500 focus:outline-none'
+                  name='password1'
+                  id='password1'
                   value={password1}
                   onChange={handlePassword1Change}
                 />
               </div>
-              <div className="mb-3">
+              <div className='mb-3'>
                 <label
-                  htmlFor="password2"
-                  className="block mb-1 text-lg font-medium text-gray-700"
+                  htmlFor='password2'
+                  className='mb-1 block text-lg font-medium text-gray-700'
                 >
                   Check Password
                 </label>
                 <input
-                  type="password"
-                  className="form-control px-16 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                  name="password2"
-                  id="password2"
+                  type='password'
+                  className='form-control rounded-lg border border-gray-300 px-6 py-2 focus:border-blue-500 focus:outline-none'
+                  name='password2'
+                  id='password2'
                   value={password2}
                   onChange={handlePassword2Change}
                 />
               </div>
-              <div className="mb-3">
+              <div className='mb-3'>
                 <label
-                  htmlFor="email"
-                  className="block mb-1 text-lg font-medium text-gray-700"
+                  htmlFor='email'
+                  className='mb-1 block text-lg font-medium text-gray-700'
                 >
                   E-mail
                 </label>
                 <input
-                  type="text"
-                  className="form-control px-16 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                  name="email"
-                  id="email"
+                  type='text'
+                  className='form-control rounded-lg border border-gray-300 px-6 py-2 focus:border-blue-500 focus:outline-none'
+                  name='email'
+                  id='email'
                   value={email}
                   onChange={handleEmailChange}
                 />
               </div>
-              <div className="mb-3">
+              <div className='mb-3'>
                 <label
-                  htmlFor="phone_number"
-                  className="block mb-1 text-lg font-medium text-gray-700"
+                  htmlFor='phone_number'
+                  className='mb-1 block text-lg font-medium text-gray-700'
                 >
                   Phone Number
                 </label>
                 <input
-                  type="text"
-                  className="form-control px-16 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-                  name="phone_number"
-                  id="phone_number"
+                  type='text'
+                  className='form-control rounded-lg border border-gray-300 px-6 py-2 focus:border-blue-500 focus:outline-none'
+                  name='phone_number'
+                  id='phone_number'
                   value={phone_number}
                   onChange={handlePhoneChange}
                 />
               </div>
-              {error && <p className="text-red-500 mb-3">{error}</p>}
-              <div className="flex justify-between">
-                <div className="badge bg-gray-200 text-gray-800 px-3 py-1 rounded-full">
-                  <button type="submit" className="text-blue-500 hover:underline">
+              {error && <p className='mb-3 text-red-500'>{error}</p>}
+              <div className='flex justify-between'>
+                <div className='badge rounded-full bg-gray-200 px-3 py-1 text-gray-800'>
+                  <button
+                    type='submit'
+                    className='text-blue-500 hover:underline'
+                  >
                     Make Account
                   </button>
                 </div>
-                <div className="badge bg-gray-200 text-gray-800 px-3 py-1 rounded-full">
-                  <a href="\login" className="text-blue-500 hover:underline">
+                <div className='badge rounded-full bg-gray-200 px-3 py-1 text-gray-800'>
+                  <a href='\login' className='text-blue-500 hover:underline'>
                     Return Login
                   </a>
                 </div>

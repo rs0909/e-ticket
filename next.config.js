@@ -12,6 +12,17 @@ const nextConfig = {
     domains: ['images.unsplash.com', 'plus.unsplash.com'],
   },
 
+  // alwys redirect / to /home
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/home',
+        permanent: true,
+      },
+    ];
+  },
+
   // SVGR
   webpack(config) {
     config.module.rules.push({

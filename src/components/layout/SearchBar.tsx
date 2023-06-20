@@ -5,11 +5,11 @@ import clsxm from '@/lib/clsxm';
 
 export interface SearchBarProps {
   className?: string;
+  search?: string;
+  setSearch?: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function SearchBar({ className }: SearchBarProps) {
-  const [search, setSearch] = React.useState('');
-
+function SearchBar({ className, search, setSearch }: SearchBarProps) {
   return (
     <div
       className={clsxm(
@@ -23,7 +23,7 @@ function SearchBar({ className }: SearchBarProps) {
         type='text'
         placeholder='Search for an event, venue or city'
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => setSearch && setSearch(e.target.value)}
         className='relative h-full flex-1 appearance-none rounded-l-md border-transparent bg-transparent bg-opacity-75 pl-10 outline-none ring-0 placeholder:text-xl placeholder:text-slate-700 hover:outline-none hover:ring-0 focus:border-transparent focus:outline-none focus:ring-0'
       />
 

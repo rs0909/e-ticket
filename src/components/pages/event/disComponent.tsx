@@ -1,47 +1,60 @@
-import Image from 'next/image';
+import { useRouter } from 'next/router';
 import React from 'react';
 
-import Card from '@/components/Card';
 import Header from '@/components/layout/Header';
-import SearchBar from '@/components/layout/SearchBar';
-import HomeFooter from '@/components/pages/home/HomeFooter';
-import TicketTypes from '@/components/pages/home/TicketTypes';
 
-import banner from '@/assets/banner2.jpeg';
 import { Event } from '@/pages/event';
 
-const commonClasses = "bg-white rounded-lg p-4 shadow-md mt-4 relative";
-const commonTextClasses = "text-gray-700 mb-1";
-
 function DisComponent({ events }: { events: Event }) {
+  const router = useRouter();
+
   return (
-    <div className='flex h-full w-full flex-col items-center'>
-    <Header className='fixed top-0 h-16 w-full bg-blue-300 bg-opacity-[0.35]' />
-    <div className="container mx-auto px-4 lg:px-8">
-        <div className="flex flex-wrap my-6">
-            <div className="w-full lg:w-full p-4 lg:pr-6 flex flex-col items-start">
-                <div className="flex items-start justify-between">
-                    <img src={getRandomImage()} alt="banner" className="mt-16 w-96 h-auto" />
-                    <div className={`${commonClasses} mt-auto w-256 h-64 mr-4 ml-4 flex-grow`}>
-                        <h1 className="font-bold text-xl mb-2">{events.title}</h1>
-                        <p className={commonTextClasses}>Event Date: {events.date}</p>
-                        <p className={commonTextClasses}>Event Director: {events.organizer}</p>
-                        <p className="text-green-500 mt-2 font-semibold">Currently {events.remaining_capacity} Remaining</p>
-                        <button className="bg-green-500 text-white px-4 py-2 rounded absolute bottom-4 right-4 mt-4">Purchase Ticket</button>
-                    </div>
-                </div>
+    <div className='bg-linear flex h-screen w-full flex-col items-center'>
+      <Header className='fixed top-0 h-16 w-full bg-blue-500 text-white' />
+      <div className='container mx-auto mt-24 px-4 lg:px-8'>
+        <div className='flex flex-wrap justify-center'>
+          <div className='m-4 flex flex-col rounded-lg bg-white p-6 shadow-md lg:w-1/2'>
+            <img
+              src={getRandomImage().src}
+              alt='event banner'
+              className='h-auto w-full rounded-lg object-cover'
+            />
+            <h1 className='mt-4 text-2xl font-bold'>{events.title}</h1>
+            <p className='text-lg text-gray-700'>Event Date: {events.date}</p>
+            <p className='text-lg text-gray-700'>
+              Event Director: {events.organizer}
+            </p>
+            <p className='text-md mt-2 font-semibold text-green-500'>
+              Currently {events.remaining_capacity} Remaining
+            </p>
+            <div className='w-full rounded-md border-l-8 border-blue-600 bg-blue-400 bg-opacity-50 p-5'>
+              <p>
+                Currently {events.capacity - events.remaining_capacity} people
+                already bought a ticket!
+              </p>
             </div>
+            <button
+              className='mt-4 rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-600'
+              onClick={() => {
+                router.push(`/event/ticket/${events.id}`);
+              }}
+            >
+              Purchase Ticket
+            </button>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-
-
   );
 }
+
 export default DisComponent;
 
 function getRandomImage() {
-  return srcs[Math.floor(Math.random() * srcs.length)];
+  return {
+    src: srcs[Math.floor(Math.random() * srcs.length)],
+    alt: 'random event image',
+  };
 }
 
 const srcs = [
